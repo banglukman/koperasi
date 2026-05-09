@@ -1,0 +1,231 @@
+<?php
+include 'koneksi.php';
+
+$id = $_GET['id'];
+
+$data = mysqli_query($conn, "SELECT * FROM barang WHERE id_barang='$id'");
+$d = mysqli_fetch_array($data);
+
+if(isset($_POST['update'])){
+
+    $nama = $_POST['nama'];
+    $harga = $_POST['harga'];
+    $stok = $_POST['stok'];
+    $terjual = $_POST['terjual'];
+    $pemasukan = $_POST['total_pemasukan'];
+
+    mysqli_query($conn, "UPDATE barang SET
+        nama_barang='$nama',
+        harga='$harga',
+        stok='$stok',
+        terjual='$terjual',
+        total_pemasukan='$pemasukan'
+        WHERE id_barang='$id'
+    ");
+
+    echo "
+    <script>
+        alert('Data berhasil diupdate!');
+        window.location='index.php';
+    </script>
+    ";
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Barang</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #dfe9f3, #ffffff);
+            min-height: 100vh;
+        }
+
+        .card-modern{
+            backdrop-filter: blur(12px);
+            background: rgba(255,255,255,0.75);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .input-modern{
+            border-radius: 14px !important;
+            padding: 14px !important;
+            border: 1px solid #dbeafe !important;
+            transition: 0.3s;
+        }
+
+        .input-modern:focus{
+            border-color: #22c55e !important;
+            box-shadow: 0 0 0 4px rgba(34,197,94,0.15) !important;
+        }
+
+        .btn-modern{
+            border-radius: 14px;
+            padding: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-modern:hover{
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-success">
+            Edit Data Barang
+        </h1>
+
+        <p class="text-secondary">
+            Kelola data inventaris koperasi dengan tampilan modern
+        </p>
+    </div>
+
+    <!-- Card -->
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            <div class="card-modern rounded-5 p-5">
+
+                <div class="d-flex align-items-center mb-4">
+                    <div class="bg-success text-white rounded-4 p-3 me-3 shadow">
+                        📦
+                    </div>
+
+                    <div>
+                        <h4 class="fw-bold m-0">
+                            Form Edit Barang
+                        </h4>
+
+                        <small class="text-secondary">
+                            Update data barang koperasi
+                        </small>
+                    </div>
+                </div>
+
+                <form method="post">
+
+                    <!-- Nama Barang -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Nama Barang
+                        </label>
+
+                        <input 
+                            type="text"
+                            name="nama"
+                            class="form-control input-modern"
+                            value="<?php echo $d['nama_barang']; ?>"
+                            required
+                        >
+                    </div>
+
+                    <!-- Harga -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Harga Barang
+                        </label>
+
+                        <input 
+                            type="number"
+                            name="harga"
+                            class="form-control input-modern"
+                            value="<?php echo $d['harga']; ?>"
+                            required
+                        >
+                    </div>
+
+                    <!-- Stok -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Stok Barang
+                        </label>
+
+                        <input 
+                            type="number"
+                            name="stok"
+                            class="form-control input-modern"
+                            value="<?php echo $d['stok']; ?>"
+                            required
+                        >
+                    </div>
+
+                    <!-- Terjual -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Total Terjual
+                        </label>
+
+                        <input 
+                            type="number"
+                            name="terjual"
+                            class="form-control input-modern"
+                            value="<?php echo $d['terjual']; ?>"
+                            required
+                        >
+                    </div>
+
+                    <!-- Pemasukan -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Total Pemasukan
+                        </label>
+
+                        <input 
+                            type="number"
+                            name="total_pemasukan"
+                            class="form-control input-modern"
+                            value="<?php echo $d['total_pemasukan']; ?>"
+                            required
+                        >
+                    </div>
+
+                    <!-- Button -->
+                    <div class="d-grid gap-3 mt-5">
+
+                        <button 
+                            type="submit"
+                            name="update"
+                            class="btn btn-success btn-modern shadow"
+                        >
+                            💾 Update Data Barang
+                        </button>
+
+                        <a href="index.php" class="btn btn-light btn-modern border">
+                            ← Kembali
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
